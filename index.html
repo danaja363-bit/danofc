@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚡ DANZZOFC CYBER DECK - ELITE HACKER SIMULATOR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background: #000;
+            color: #0f0;
+            min-height: 100vh;
+            padding: 10px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Efek Matrix Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, #0f0 500%);
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            animation: matrix 15s linear infinite;
+        }
+        
+        @keyframes matrix {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+        
+        /* Efek Glitch Global */
+        .glitch-text {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 10px #0f0; }
+            25% { text-shadow: -5px 0 10px #f0f, 5px 0 10px #0ff; }
+            50% { text-shadow: 5px 0 10px #f0f, -5px 0 10px #0ff; }
+            75% { text-shadow: -5px 0 10px #0ff, 5px 0 10px #f0f; }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* HEADER MEGA KEREN */
+        .cyber-header {
+            background: #111;
+            border: 3px solid #0f0;
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+        }
+        
+        .cyber-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 0, 0.1) 50%, transparent 70%);
+            animation: scan 10s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .status-led {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .led {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: ledPulse 1s infinite;
+        }
+        
+        .led-red { background: #f00; box-shadow: 0 0 15px #f00; animation-delay: 0s; }
+        .led-yellow { background: #ff0; box-shadow: 0 0 15px #ff0; animation-delay: 0.3s; }
+        .led-green { background: #0f0; box-shadow: 0 0 15px #0f0; animation-delay: 0.6s; }
+        
+        @keyframes ledPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .header-title {
+            text-align: center;
+        }
+        
+        .main-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #0f0;
+            text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+            letter-spacing: 5px;
+        }
+        
+        .sub-title {
+            color: #0f0;
+            font-size: 0.8em;
+            opacity: 0.8;
+            letter-spacing: 3px;
+        }
+        
+        .header-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #0f0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff0;
+            text-shadow: 0 0 10px #ff0;
+        }
+        
+        .stat-label {
+            font-size: 0.6em;
+            color: #0f0;
+        }
+        
+        /* TERMINAL PREMIUM */
+        .terminal-premium {
+            background: #0a0a0a;
+            border: 3px solid #0f0;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+        
+        .terminal-bar {
+            background: #111;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0f0;
+        }
+        
+        .terminal-info {
+            display: flex;
+            gap: 15px;
+            color: #0f0;
+            font-size: 0.8em;
+        }
+        
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .term-btn {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .terminal-screen {
+            padding: 20px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #000;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+        
+        .line {
+            margin: 8px 0;
+            word-break: break-word;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .prompt {
+            color: #0f0;
+            font-weight: bold;
+        }
+        
+        .cmd {
+            color: #ff0;
+        }
+        
+        .output {
+            color: #0f0;
+            margin-left: 20px;
+        }
+        
+        .error {
+            color: #f00;
+            text-shadow: 0 0 10px #f00;
+        }
+        
+        .success {
+            color: #0f0;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff0;
+        }
+        
+        .cursor-line {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #0f0;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* HOLOGRAPHIC TOOLS */
+        .hologrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .holo-btn {
+            background: #111;
+            border: 2px solid #0f0;
+            border-radius: 12px;
+            padding: 15px 5px;
+            text-align: center;
+            color: #0f0;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8em;
+        }
+        
+        .holo-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+        
+        .holo-btn:hover::before {
+            animation: shine 1s;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .holo-btn:active {
+            transform: scale(0.95);
+            background: #0f0;
+            color: #000;
+        }
+        
+        .btn-icon {
+            font-size: 1.8em;
+            filter: drop-shadow(0 0 10px #0f0);
+        }
+        
+        /* NETWORK VISUALIZATION */
+        .network-panel {
+            background: #111;
+            border: 3px solid #0f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .network-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
+        }
+        
+        .nodes-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .node {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            background: #111;
+            position: relative;
+            animation: nodePulse 2s infinite;
+        }
+        
+        .node::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #0f0;
+            border-radius: 50%;
+            animation: ripple 2s infinite;
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .node:nth-child(2) { animation-delay: 0.5s; }
+        .node:nth-child(3) { animation-delay: 1s; }
+        
+        .connection-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #0f0, #ff0, #0f0);
+            animation: flow 3s linear infinite;
+        }
+        
+        @keyframes flow {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+        
+        /* INFO PANEL DENGAN GAUGE */
+        .info-panel {
+            background: #111;
+            border: 3px solid #0f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .gauge-container {
+            text-align: center;
+        }
+        
+        .gauge {
+            width: 100%;
+            height: 10px;
+            background: #000;
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0f0, #ff0);
+            width: 0%;
+            transition: width 0.5s;
+            position: relative;
+        }
+        
+        .gauge-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 10px #fff;
+            animation: move 2s linear infinite;
+        }
+        
+        @keyframes move {
+            0% { right: 0; }
+            100% { right: 100%; }
+        }
+        
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff0;
+            text-shadow: 0 0 10px #ff0;
+        }
+        
+        /* LIVE LOG DENGAN CRT EFFECT */
+        .crt-panel {
+            background: #111;
+            border: 3px solid #0f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .crt-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,255,0,0.03) 50%, rgba(0,0,0,0.03) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scanlines 10s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 20px; }
+        }
+        
+        .log-container {
+            background: #000;
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 10px;
+            height: 100px;
+            overflow-y: auto;
+            font-size: 0.8em;
+            line-height: 1.6;
+        }
+        
+        .log-entry {
+            color: #0f0;
+            border-bottom: 1px solid #0f0;
+            padding: 3px 0;
+        }
+        
+        /* FOOTER DENGAN GLITCH */
+        .cyber-footer {
+            text-align: center;
+            padding: 15px;
+            color: #0f0;
+            font-size: 0.7em;
+            border-top: 2px solid #0f0;
+            margin-top: 15px;
+            position: relative;
+        }
+        
+        .glitch-effect {
+            animation: textGlitch 3s infinite;
+        }
+        
+        @keyframes textGlitch {
+            0%, 100% { transform: skew(0deg); }
+            20% { transform: skew(2deg); }
+            40% { transform: skew(-2deg); }
+            60% { transform: skew(1deg); }
+            80% { transform: skew(-1deg); }
+        }
+        
+        /* RAINBOW BORDER */
+        .rainbow-border {
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #f0f);
+            border-image-slice: 1;
+            animation: rainbow 5s linear infinite;
+        }
+        
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        @media (max-width: 380px) {
+            .hologrid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .main-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <div class="container">
+        <!-- HEADER MEGA KEREN -->
+        <div class="cyber-header">
+            <div class="header-top">
+                <div class="status-led">
+                    <div class="led led-red"></div>
+                    <div class="led led-yellow"></div>
+                    <div class="led led-green"></div>
+                </div>
+                <div class="glitch-text">🕸️ ELITE ACCESS 🕸️</div>
+            </div>
+            
+            <div class="header-title">
+                <div class="main-title glitch-text">DANZZOFC</div>
+                <div class="sub-title">CYBER OPERATIONS TERMINAL</div>
+            </div>
+            
+            <div class="header-stats">
+                <div class="stat">
+                    <div class="stat-value" id="connectionStat">97%</div>
+                    <div class="stat-label">SECURE</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="packetStat">1.4K</div>
+                    <div class="stat-label">PACKETS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="targetStat">3</div>
+                    <div class="stat-label">TARGETS</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TERMINAL PREMIUM -->
+        <div class="terminal-premium">
+            <div class="terminal-bar">
+                <div class="terminal-info">
+                    <span>danzzofc@cyberdeck:~$</span>
+                    <span>⚡ ROOT</span>
+                </div>
+                <div class="terminal-buttons">
+                    <div class="term-btn" style="background: #f00;" onclick="minimizeTerminal()"></div>
+                    <div class="term-btn" style="background: #ff0;" onclick="maximizeTerminal()"></div>
+                    <div class="term-btn" style="background: #0f0;" onclick="clearTerminal()"></div>
+                </div>
+            </div>
+            <div class="terminal-screen" id="terminal">
+                <div class="line">
+                    <span class="prompt">danzzofc@cyberdeck:~$</span> 
+                    <span class="cmd">./initialize --level elite</span>
+                </div>
+                <div class="line">
+                    <span class="success">▶ [SYSTEM] Cyber Deck initialized</span>
+                </div>
+                <div class="line">
+                    <span class="success">▶ [SECURE] Encryption active (AES-256)</span>
+                </div>
+                <div class="line">
+                    <span class="success">▶ [ANON] TOR connection established</span>
+                </div>
+                <div class="line">
+                    <span class="warning">▶ [READY] Waiting for commands...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- HOLOGRAPHIC TOOLS GRID -->
+        <div class="hologrid">
+            <div class="holo-btn" onclick="runCyberAttack('ddos')">
+                <span class="btn-icon">💀</span>
+                <span>DDOS</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('sqli')">
+                <span class="btn-icon">💉</span>
+                <span>SQLi</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('scan')">
+                <span class="btn-icon">🔍</span>
+                <span>SCAN</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('crack')">
+                <span class="btn-icon">🔓</span>
+                <span>CRACK</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('spoof')">
+                <span class="btn-icon">🎭</span>
+                <span>SPOOF</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('exploit')">
+                <span class="btn-icon">⚡</span>
+                <span>EXPLOIT</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('phish')">
+                <span class="btn-icon">🎣</span>
+                <span>PHISH</span>
+            </div>
+            <div class="holo-btn" onclick="runCyberAttack('ransom')">
+                <span class="btn-icon">💰</span>
+                <span>RANSOM</span>
+            </div>
+        </div>
+        
+        <!-- NETWORK VISUALIZATION -->
+        <div class="network-panel">
+            <div class="network-title">
+                <span class="pulse-dot"></span>
+                <span>🌐 ACTIVE CONNECTIONS</span>
+            </div>
+            <div class="nodes-container">
+                <div class="node">VPN</div>
+                <div class="connection-line"></div>
+                <div class="node">TOR</div>
+                <div class="connection-line"></div>
+                <div class="node">TARGET</div>
+            </div>
+        </div>
+        
+        <!-- INFO PANEL DENGAN GAUGE -->
+        <div class="info-
